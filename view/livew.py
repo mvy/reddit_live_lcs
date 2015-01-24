@@ -175,7 +175,7 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
 
         team_ = getattr(self.match_, colour_ + "_team")()
         # Clipboard copy
-        clip_ = formatter.Formatter.format_dragon(team_, spin_.value())
+        clip_ = formatter.Formatter.format_dragon(team_.tag, spin_.value())
         pyperclip.copy(clip_)
 
     def on_player_clicked(self):
