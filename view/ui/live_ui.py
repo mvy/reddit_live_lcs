@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'view/ui/live.ui'
 #
-# Created: Fri Jan 23 16:20:07 2015
+# Created: Sat Jan 24 02:16:34 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,12 +12,9 @@ from PySide import QtCore, QtGui
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(825, 635)
-        self.groupBox = QtGui.QGroupBox(Form)
-        self.groupBox.setGeometry(QtCore.QRect(10, 10, 801, 511))
-        self.groupBox.setObjectName("groupBox")
-        self.groupBox_2 = QtGui.QGroupBox(self.groupBox)
-        self.groupBox_2.setGeometry(QtCore.QRect(10, 20, 461, 401))
+        Form.resize(479, 417)
+        self.groupBox_2 = QtGui.QGroupBox(Form)
+        self.groupBox_2.setGeometry(QtCore.QRect(10, 10, 461, 401))
         self.groupBox_2.setObjectName("groupBox_2")
         self.blue_top = QtGui.QPushButton(self.groupBox_2)
         self.blue_top.setGeometry(QtCore.QRect(160, 20, 91, 51))
@@ -90,12 +87,12 @@ class Ui_Form(object):
         self.purple_dragon.setGeometry(QtCore.QRect(310, 340, 91, 23))
         self.purple_dragon.setStyleSheet("background-color: rgb(255, 170, 255)")
         self.purple_dragon.setObjectName("purple_dragon")
-        self.spinBox = QtGui.QSpinBox(self.groupBox_2)
-        self.spinBox.setGeometry(QtCore.QRect(260, 340, 42, 22))
-        self.spinBox.setObjectName("spinBox")
-        self.spinBox_2 = QtGui.QSpinBox(self.groupBox_2)
-        self.spinBox_2.setGeometry(QtCore.QRect(410, 340, 42, 22))
-        self.spinBox_2.setObjectName("spinBox_2")
+        self.blue_dragon_spin = QtGui.QSpinBox(self.groupBox_2)
+        self.blue_dragon_spin.setGeometry(QtCore.QRect(260, 340, 42, 22))
+        self.blue_dragon_spin.setObjectName("blue_dragon_spin")
+        self.purple_dragon_spin = QtGui.QSpinBox(self.groupBox_2)
+        self.purple_dragon_spin.setGeometry(QtCore.QRect(410, 340, 42, 22))
+        self.purple_dragon_spin.setObjectName("purple_dragon_spin")
         self.blue_baron = QtGui.QPushButton(self.groupBox_2)
         self.blue_baron.setGeometry(QtCore.QRect(160, 370, 91, 23))
         self.blue_baron.setStyleSheet("background-color: rgb(170, 170, 255);")
@@ -104,33 +101,21 @@ class Ui_Form(object):
         self.purple_baron.setGeometry(QtCore.QRect(310, 370, 91, 23))
         self.purple_baron.setStyleSheet("background-color: rgb(255, 170, 255)")
         self.purple_baron.setObjectName("purple_baron")
-        self.label = QtGui.QLabel(self.groupBox)
-        self.label.setGeometry(QtCore.QRect(20, 420, 321, 61))
-        self.label.setObjectName("label")
+        self.clear_button = QtGui.QPushButton(self.groupBox_2)
+        self.clear_button.setGeometry(QtCore.QRect(10, 370, 91, 23))
+        self.clear_button.setObjectName("clear_button")
+        self.blue_baron_spin = QtGui.QSpinBox(self.groupBox_2)
+        self.blue_baron_spin.setGeometry(QtCore.QRect(260, 370, 42, 22))
+        self.blue_baron_spin.setObjectName("blue_baron_spin")
+        self.purple_baron_spin = QtGui.QSpinBox(self.groupBox_2)
+        self.purple_baron_spin.setGeometry(QtCore.QRect(410, 370, 42, 22))
+        self.purple_baron_spin.setObjectName("purple_baron_spin")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
-        Form.setTabOrder(self.action_none_button, self.action_kill_button)
-        Form.setTabOrder(self.action_kill_button, self.blue_top)
-        Form.setTabOrder(self.blue_top, self.blue_jungle)
-        Form.setTabOrder(self.blue_jungle, self.blue_mid)
-        Form.setTabOrder(self.blue_mid, self.blue_adc)
-        Form.setTabOrder(self.blue_adc, self.blue_support)
-        Form.setTabOrder(self.blue_support, self.blue_dragon)
-        Form.setTabOrder(self.blue_dragon, self.blue_baron)
-        Form.setTabOrder(self.blue_baron, self.purple_top)
-        Form.setTabOrder(self.purple_top, self.purple_jungle)
-        Form.setTabOrder(self.purple_jungle, self.purple_mid)
-        Form.setTabOrder(self.purple_mid, self.purple_adc)
-        Form.setTabOrder(self.purple_adc, self.purple_support)
-        Form.setTabOrder(self.purple_support, self.purple_dragon)
-        Form.setTabOrder(self.purple_dragon, self.purple_baron)
-        Form.setTabOrder(self.purple_baron, self.spinBox)
-        Form.setTabOrder(self.spinBox, self.spinBox_2)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Live", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("Form", "Single copy", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("Form", "Players", None, QtGui.QApplication.UnicodeUTF8))
         self.blue_top.setText(QtGui.QApplication.translate("Form", "Top\n"
 "Champion\n"
@@ -168,5 +153,5 @@ class Ui_Form(object):
         self.purple_dragon.setText(QtGui.QApplication.translate("Form", "Dragon", None, QtGui.QApplication.UnicodeUTF8))
         self.blue_baron.setText(QtGui.QApplication.translate("Form", "Baron", None, QtGui.QApplication.UnicodeUTF8))
         self.purple_baron.setText(QtGui.QApplication.translate("Form", "Baron", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Form", "Current Output", None, QtGui.QApplication.UnicodeUTF8))
+        self.clear_button.setText(QtGui.QApplication.translate("Form", "Clear Clipboard", None, QtGui.QApplication.UnicodeUTF8))
 
