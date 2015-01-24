@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>311</width>
+    <height>194</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Lineups</string>
+  </property>
+  <widget class="QComboBox" name="blue_top">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 170, 255);</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Top</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="purple_top">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>10</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 170, 255)</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Top</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="blue_mid">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 170, 255);</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Mid</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="purple_mid">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>70</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 170, 255)</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Mid</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="blue_jungle">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 170, 255);</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Jungle</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="purple_jungle">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>40</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 170, 255)</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Jungle</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="blue_adc">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 170, 255);</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>ADC</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="purple_adc">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>100</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 170, 255)</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>ADC</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="blue_support">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 170, 255);</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Support</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="purple_support">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>130</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 170, 255)</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Support</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="set_button">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>291</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set lineup</string>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>blue_top</tabstop>
+  <tabstop>purple_top</tabstop>
+  <tabstop>purple_jungle</tabstop>
+  <tabstop>blue_jungle</tabstop>
+  <tabstop>blue_mid</tabstop>
+  <tabstop>purple_mid</tabstop>
+  <tabstop>purple_adc</tabstop>
+  <tabstop>blue_adc</tabstop>
+  <tabstop>blue_support</tabstop>
+  <tabstop>purple_support</tabstop>
+  <tabstop>set_button</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
