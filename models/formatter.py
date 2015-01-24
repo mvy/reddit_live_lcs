@@ -23,6 +23,14 @@ class Formatter():
             Formatter.format_player(namea_, teama_, positiona_, championa_),
             Formatter.format_player(nameb_, teamb_, positionb_, championb_))
 
+    def format_dragon(team_, stack_):
+        return Formatter.randlist(formats.dragon).format(
+            team=Formatter.format_team(team_), stack=stack_)
+
+    def format_baron(team_, stack_):
+        return Formatter.randlist(formats.baron).format(
+            Formatter.format_team(team=team_), stack=stack_)
+
     def randlist(list_):
         return list_[random.randrange(len(list_))]
 
