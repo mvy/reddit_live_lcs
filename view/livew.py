@@ -7,9 +7,15 @@ import supervisor
 import re
 import pyperclip
 
+"""List of lambdas to split object_names"""
+
+"""Split by '_'"""
 split_lambda = lambda name: name.split('_')
+"""Get the last element of a '_' separated words"""
 position_lambda = lambda name: split_lambda(name)[-1]
+"""Get the second element of a '_' separated words"""
 action_lambda = lambda name: split_lambda(name)[1]
+"""Get the first elelment of a '_' seprated words"""
 colour_lambda = lambda name: split_lambda(name)[0]
 
 class LiveW(QtGui.QWidget, live_ui.Ui_Form):
@@ -23,9 +29,11 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
     def __init__(self, parent=None):
         super(LiveW, self).__init__(parent)
 
+        # Live UI
         self.ui = live_ui.Ui_Form()
         self.ui.setupUi(self)
 
+        # Buttons as lists
         self.ui.blue_buttons = [self.ui.blue_top, self.ui.blue_jungle,
                                 self.ui.blue_mid, self.ui.blue_adc,
                                 self.ui.blue_support]
@@ -37,31 +45,19 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
         self.ui.action_buttons = [self.ui.action_none_button,
                                   self.ui.action_kill_button]
 
-        self.sequence = []
+        self.ui.objectives_buttons = [self.ui.blue_dragon,
+                                      self.ui.purple_dragon, self.ui.blue_baron,
+                                      self.ui.purple_baron]
 
+        # Sequence for kill registration
+        self.sequence = []
+        self.clip = ''
+
+        # Bind buttons to actions
         self.connect_actions()
 
+        # Get the match reference
         self.match_ = supervisor.Supervisor.match()
-        #self.init_machine()
-
-    def init_machine(self):
-        self.state_machine = QtCore.QStateMachine()
-
-        # List of states
-        cleared = QtCore.QState()
-        blue = QtCore.QState()
-        purple = QtCore.QState()
-        action = QtCore.QState()
-        blue_action = QtCore.QState()
-        purple_action = QtCore.QState()
-        blue_action_on_purple = QtCore.QState()
-        purple_action_on_blue = QtCore.QState()
-
-        # Transitions
-
-        # Initial state
-
-        # Staro
 
     def uncheck_all(self):
         """Unchecks all buttons"""
@@ -69,33 +65,55 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
                    self.ui.action_buttons):
             b_.setChecked(False)
 
+    def uncheck_players(self):
+        """Unchecks all players button"""
+        for b_ in self.ui.blue_buttons + self.ui.purple_buttons:
+            b_.setChecked(False)
+
     def connect_actions(self):
         """Connects the UI elements to the functions"""
+        # Retrieving from Match
         supervisor.Supervisor.match().teamHasChanged.connect(self.update_teams)
         supervisor.Supervisor.match().lineupHasChanged.connect(
             self.update_lineup)
 
         # Connect blue buttons
-        for bb_ in self.ui.blue_buttons:
-            bb_.clicked.connect(self.on_blue_button_clicked)
-
-        # Connect purple buttons
-        for pb_ in self.ui.purple_buttons:
-            pb_.clicked.connect(self.on_purple_button_clicked)
+        for b_ in self.ui.blue_buttons + self.ui.purple_buttons:
+            b_.clicked.connect(self.on_player_clicked)
 
         # Connect action buttons
         for ab_ in self.ui.action_buttons:
             ab_.clicked.connect(self.on_action_button_clicked)
 
+        # Connect dragon/baron buttons
+        for b_ in self.ui.objectives_buttons:
+            b_.clicked.connect(self.on_objective_clicked)
+
         # Connect sequence changed
         self.sequenceChanged.connect(self.on_sequence_changed)
 
+        # Clear button
+        self.ui.clear_button.pressed.connect(self.clear_clipboard)
+
+    def clear_clipboard(self):
+        """Uses pyperclip to clear the clipboard"""
+        self.clip = ''
+        pyperclip.copy(self.clip)
+
     def on_sequence_changed(self):
+        """Manages the sequence changed even
+
+        If the sequence is of length 3, there is a kill action to be registered
+        """
         if len(self.sequence) == 3:
+            # objectName : kill_action_button
             action_ = action_lambda(self.sequence[0].objectName())
 
+            # Actor is the first registered in sequence
             actor_colour_ = colour_lambda(self.sequence[1].objectName())
+            # Actee is the second registered in sequence
             actee_colour_ = colour_lambda(self.sequence[2].objectName())
+
             actor_position_ = position_lambda(self.sequence[1].objectName())
             actee_position_ = position_lambda(self.sequence[2].objectName())
 
@@ -110,6 +128,7 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
             actor_ = getattr(actor_team_, actor_position_)
             actee_ = getattr(actee_team_, actee_position_)
 
+            # Treat the actions
             if action_ == "kill":
                 clip_ = formatter.Formatter.format_kill(actor_, actor_team_.tag,
                                                         actor_position_,
@@ -117,30 +136,57 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
                                                         actee_team_.tag,
                                                         actee_position_,
                                                         actee_champion_)
-                pyperclip.copy(clip_)
+                if self.clip != '':
+                    # Append to the clipboard : add 2 CR for reddit format
+                    # FIXME: should not probably be hardcoded
+                    self.clip += "\r\n\r\n"
+                self.clip += clip_
 
-                # Restart for kill action
-                self.sequence = self.sequence[:2]
+                pyperclip.copy(self.clip)
+
+                # Restart for kill action (clear the 2 buttons from list)
+                self.sequence = self.sequence[:1]
                 self.uncheck_players()
 
-
-
     def on_action_button_clicked(self):
+        """Registers a new action with sequence clearing"""
+        # No more checked player buttons
         self.uncheck_players()
 
         if self.sender().objectName() != 'action_none_button':
             self.sequence = [self.sender()]
+        else:
+            self.sequence = []
 
         # Uncheck other actions
         for b_ in [button_ for button_ in self.ui.action_buttons if button_ !=
                    self.sender()]:
             b_.setChecked(False)
 
+    def on_objective_clicked(self):
+        """Registers a new objective for a team
+
+        Increases the counter for that team and objective"""
+        colour_ = colour_lambda(self.sender().objectName())
+        objective_ = position_lambda(self.sender().objectName())
+
+        spin_ = getattr(self.ui, '_'.join([colour_, objective_, 'spin']))
+        spin_.setValue(spin_.value() + 1)
+
+        team_ = getattr(self.match_, colour_ + "_team")()
+        # Clipboard copy
+        clip_ = formatter.Formatter.format_dragon(team_, spin_.value())
+        pyperclip.copy(clip_)
+
     def on_player_clicked(self):
         """When a purple button is clicked:
         - Unchecked other purple buttons when one is clicked
         - Add it to the action sequence"""
+        # Extract from sender
         colour_ = colour_lambda(self.sender().objectName())
+        position_ = position_lambda(self.sender().objectName())
+
+        # Get the buttons for this colour
         buttons_ = getattr(self.ui, colour_ + "_buttons")
 
         # TODO: use the second list and map setChecked ?
@@ -148,64 +194,21 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
             b_.setChecked(False)
 
         # Remove any colour button from the sequence
-        self.sequence = [seq_ for seq_ in buttons_ if button_ != self.sender()]
+        self.sequence = [seq_ for seq_ in self.sequence if
+                         colour_lambda(seq_.objectName()) != colour_]
 
-        position_ = position_lambda(self.sender().objectName())
-
+        # Clipboard
         self.clip_player(colour_, position_)
-
-        # Manage sequence
-        self.sequence.append(self.sender())
-        self.sequenceChanged.emiot()
-
-
-    def on_blue_button_clicked(self):
-        """When a blue button is clicked:
-        - Unchecked other blue buttons when one is clicked
-        - Add it to the action sequence"""
-        for b_ in [button_ for button_ in self.ui.blue_buttons if button_ !=
-                   self.sender()]:
-            b_.setChecked(False)
-
-        # Remove any blue button from the sequence
-        self.sequence = [seq_ for seq_ in self.sequence if seq_ not in
-                         self.ui.blue_buttons]
-
-        # Copy to clipboard
-        oname_ = self.sender().objectName()
-        position_ = position_lambda(oname_)
-
-        self.clip_player("blue", position_)
-
-        # Manage sequence
-        self.sequence.append(self.sender())
-        self.sequenceChanged.emit()
-
-    def on_purple_button_clicked(self):
-        """When a purple button is clicked:
-        - Unchecked other purple buttons when one is clicked
-        - Add it to the action sequence"""
-        for b_ in [button_ for button_ in self.ui.purple_buttons if button_ !=
-                   self.sender()]:
-            b_.setChecked(False)
-
-        # Remove any purple button from the sequence
-        self.sequence = [seq_ for seq_ in self.sequence if seq_ not in
-                         self.ui.purple_buttons]
-
-        # Copy to clipboard
-        oname_ = self.sender().objectName()
-        position_ = position_lambda(oname_)
-
-        self.clip_player("purple", position_)
 
         # Manage sequence
         self.sequence.append(self.sender())
         self.sequenceChanged.emit()
 
     def clip_player(self, colour, position_):
+        """Copies player information to the clipboard (uses pyperclip)"""
         player_ = getattr(getattr(self.match_, colour + '_team')(), position_)
         champion_ = getattr(self.match_.lineup(), colour + '_' + position_)
+
         team_ = formats.team.format(
             team=getattr(
                     getattr(self.match_, colour + "_team")(),
@@ -260,9 +263,3 @@ class LiveW(QtGui.QWidget, live_ui.Ui_Form):
         for player, button in zip(lineup, self.ui.purple_buttons):
             button.setText(re.sub(r'(.*\n.*\n).*', r'\1' + player,
                                   button.text()))
-
-    def uncheck_players(self):
-        """Unchecks all players button"""
-        for b_ in self.ui.blue_buttons + self.ui.purple_buttons:
-            b_.setChecked(False)
-
