@@ -1,15 +1,18 @@
 """
 The models package stores all the description of the software objects
 
-.. automodule:: models.team
+.. automodule:: models.formatter
    :members:
 
-.. automodule:: models.player
+.. automodule:: models.lineup
    :members:
 
 .. automodule:: models.match
    :members:
 
-.. automodule:: models.lineup
+.. automodule:: models.team
+   :members:
+
+.. automodule:: models.player
    :members:
 """
